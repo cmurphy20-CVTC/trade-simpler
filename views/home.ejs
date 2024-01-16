@@ -1,6 +1,17 @@
 <%- include("./partials/header.ejs"); -%>
 
 <h2>Welcome</h2>
+
+<div style="align-items:center ;">
+  <form action="/getStockName" method="get">
+    <input type="text" required name="stockName"/>
+    <button type="submit" class>Search</button>
+  </form>
+ 
+
+</div>
+
+
 <button><a href="/getIntrinsicValue">Get Intrinsic Value</a></button>
 
 <%- include("./partials/footer.ejs"); -%>
