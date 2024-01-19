@@ -7,12 +7,12 @@ import ejs from "ejs";
 
 import { getStockData } from "./src/middleware/getStockData.js";
 import { calculateIntrinsicValue } from "./src/services/calculateIntrinsicValue.js";
-import { getStockName } from "./src/middleware/getStockName.js";
+import { findStockName } from "./src/middleware/findStockName.js";
 const app = express();
 
 app.use(express.static("views"));
 app.set("view engine", "ejs");
-
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
@@ -41,27 +41,26 @@ app.get("/getIntrinsicValue", (req, res) => {
   });
 });
 
-app.get("/getStockName", (req, res) => {
-  const stockName = req.body.stockName;
- 
+app.post("/findStockName", (req, res) => {
+  let stockName = req.body.stockname.trim();
 
-  let searchedStock = {
-    longName: "",
-    quoteType: "",
-    symbol: "",
-    exchange: "",
-  };
 
   try {
-    searchedStock = getStockName();
-    console.log(searchedStock.longName)
-    res.render("stockName", {stock: searchedStock})
+    const stockNameData = Promise.resolve(findStockName(stockName));
+    
+    stockNameData.then((value) => {
+      console.log("found " +  value)
+      res.render("stockName", {stockNames: value.quotes})
+
+    }).catch((error) => {
+      // Handle errors if the promise rejects
+      console.error(error);
+    });
+    
     
   } catch (error) {
     console.error(error);
   }
-  
-
   
 });
 

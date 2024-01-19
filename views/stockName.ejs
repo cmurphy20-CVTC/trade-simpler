@@ -2,6 +2,7 @@
 
 <h2>Stock</h2>
 
-<p><%= stock.longName %></p>
-
+<% stockNames.forEach((stock) => { %>
+<p><%= stock.longname %></p>
+<% }) %>
 <%- include("./partials/footer.ejs"); -%>
