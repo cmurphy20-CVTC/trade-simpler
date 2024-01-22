@@ -2,7 +2,14 @@
 
 <h2>Stock</h2>
 
+<form action="/findStockData" method="post">
+
 <% stockNames.forEach((stock) => { %>
-<p><%= stock.longname %></p>
+<p><%= stock.exchange %></p>
+<button type="submit" name="selectedStock" value="<%= stock.symbol %>"><%= stock.longname %></button>
+<p><%= stock.shortname %></p>
+<p><%= stock.symbol %></p>
 <% }) %>
 <%- include("./partials/footer.ejs"); -%>
+
+</form>
