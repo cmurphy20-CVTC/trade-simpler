@@ -3,12 +3,12 @@
 export const calculateIntrinsicValue = async (earningsGrowth, cashPerShare, stockPrice) => {
   try {
     
-    const intrinsicValue = (
+    return (
       cashPerShare * (1 + earningsGrowth)
       * (stockPrice / cashPerShare)
     );
 
-    return intrinsicValue;
+   // return intrinsicValue;
     
   } catch (error) {
     console.error(error);

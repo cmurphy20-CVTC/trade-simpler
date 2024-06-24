@@ -19,17 +19,18 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.post("/intrinsicValue", (req, res) => {
+app.post("/intrinsicValue", async (req, res) => {
   
   const earningsGrowth = req.body.earningsGrowth.trim();
   const cashPerShare = req.body.cashPerShare.trim();
   const stockPrice = req.body.stockPrice.trim();
 
   try {
-    const intrinsicValue =
-      cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
+    // const intrinsicValue =
+    //   cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
 
-      
+
+    const intrinsicValue = await calculateIntrinsicValue(earningsGrowth, cashPerShare, stockPrice);
     res.render("intrinsicValue", { calculatedValue: intrinsicValue });
   } catch (error) {
     console.error(error);
