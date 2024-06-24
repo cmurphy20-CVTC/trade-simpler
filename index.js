@@ -1,6 +1,6 @@
 import "dotenv/config";
 import express from "express";
-// may want to use express session to save session data
+
 // find out how to import tailwind and postcss
 import bodyParser from "body-parser";
 import ejs from "ejs";
@@ -20,17 +20,16 @@ app.get("/", (req, res) => {
 });
 
 app.post("/intrinsicValue", async (req, res) => {
-  
   const earningsGrowth = req.body.earningsGrowth.trim();
   const cashPerShare = req.body.cashPerShare.trim();
   const stockPrice = req.body.stockPrice.trim();
 
   try {
-    // const intrinsicValue =
-    //   cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
-
-
-    const intrinsicValue = await calculateIntrinsicValue(earningsGrowth, cashPerShare, stockPrice);
+    const intrinsicValue = await calculateIntrinsicValue(
+      earningsGrowth,
+      cashPerShare,
+      stockPrice,
+    );
     res.render("intrinsicValue", { calculatedValue: intrinsicValue });
   } catch (error) {
     console.error(error);
@@ -50,13 +49,11 @@ app.post("/findStockData", (req, res) => {
     console.log(value.earningsGrowth.raw);
     console.log(value.totalCashPerShare.raw);
     console.log(value.currentPrice.raw);
-    
 
     try {
       const intrinsicValue =
         cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
 
-        
       res.render("intrinsicValue", { calculatedValue: intrinsicValue });
     } catch (error) {
       console.error(error);
