@@ -19,6 +19,23 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
+app.post("/intrinsicValue", (req, res) => {
+  
+  const earningsGrowth = req.body.earningsGrowth.trim();
+  const cashPerShare = req.body.cashPerShare.trim();
+  const stockPrice = req.body.stockPrice.trim();
+
+  try {
+    const intrinsicValue =
+      cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
+
+      
+    res.render("intrinsicValue", { calculatedValue: intrinsicValue });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 app.post("/findStockData", (req, res) => {
   let stockSymbol = req.body.selectedStock.trim();
   console.log("get data " + stockSymbol);

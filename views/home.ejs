@@ -2,10 +2,20 @@
 
 <h2>Welcome</h2>
 
-<div style="align-items: center; width: 50vw">
+<!-- <div style="align-items: center; width: 50vw">
   <form action="/findStockName" method="post">
     <input type="text" name="stockname" required />
     <button type="submit" class>Search</button>
+  </form>
+</div> -->
+
+<div>
+  <form action="/intrinsicValue" method="post">
+    <input type="text" name="stockname" required />
+    <input type="number" name="earningsGrowth" step=".01" required>
+    <input type="number" name="cashPerShare" step=".01" required>
+    <input type="number" name="stockPrice" step=".01" required>
+    <button type="submit" class>Calculate Instrinsic Value</button>
   </form>
 </div>
 
