@@ -5,9 +5,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import ejs from "ejs";
 
-import { findStockData } from "./src/middleware/findStockData.js";
 import { calculateIntrinsicValue } from "./src/services/calculateIntrinsicValue.js";
-import { findStockName } from "./src/middleware/findStockName.js";
+import { calculateValuation } from "./src/services/calculateValuation.js";
 const app = express();
 
 app.use(express.static("views"));
@@ -20,9 +19,10 @@ app.get("/", (req, res) => {
 });
 
 app.post("/intrinsicValue", async (req, res) => {
-  const earningsGrowth = req.body.earningsGrowth.trim();
-  const cashPerShare = req.body.cashPerShare.trim();
-  const stockPrice = req.body.stockPrice.trim();
+  const stockName = req.body.stockName.trim();
+  const earningsGrowth = parseFloat(req.body.earningsGrowth.trim());
+  const cashPerShare = parseFloat(req.body.cashPerShare.trim());
+  const stockPrice = parseFloat(req.body.stockPrice.trim());
 
   try {
     const intrinsicValue = await calculateIntrinsicValue(
@@ -30,7 +30,17 @@ app.post("/intrinsicValue", async (req, res) => {
       cashPerShare,
       stockPrice,
     );
-    res.render("intrinsicValue", { calculatedValue: intrinsicValue });
+    console.log(`intrinsic value ${intrinsicValue}`);
+    const percentDifference = await calculateValuation(
+      intrinsicValue,
+      stockPrice,
+    );
+    console.log(`difference ${percentDifference}`);
+    res.render("intrinsicValue", {
+      stockName: stockName,
+      calculatedValue: intrinsicValue,
+      currentDifference: percentDifference,
+    });
   } catch (error) {
     console.error(error);
   }

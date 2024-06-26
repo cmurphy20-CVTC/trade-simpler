@@ -4,12 +4,12 @@
 
 <div>
   <form action="/intrinsicValue" method="post">
-    <label for="stockName">Stick Name</label>
-    <input type="text" name="stockname" required />
+    <label for="stockName">Stock Name</label>
+    <input type="text" name="stockName" required />
     <label for="earningsGrowth">Earnings Growth</label>
-    <input type="number" name="earningsGrowth" step=".01" required />
+    <input type="number" name="earningsGrowth" step=".01" required placeholder=".08"/>
     <label for="cashPerShare">Cash Per Share</label>
-    <input type="number" name="cashPerShare" step=".01" required />
+    <input type="number" name="cashPerShare" step=".01" required placeholder=".03"/>
     <label for="stockPrice">Stock Price</label>
     <input type="number" name="stockPrice" step=".01" required />
     <button type="submit" class>Calculate Instrinsic Value</button>

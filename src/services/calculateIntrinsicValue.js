@@ -4,7 +4,7 @@ export const calculateIntrinsicValue = async (
   stockPrice,
 ) => {
   try {
-    return cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
+    return parseFloat(cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare));
   } catch (error) {
     console.error(error);
   }

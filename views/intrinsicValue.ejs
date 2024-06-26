@@ -1,7 +1,8 @@
 <%- include("./partials/header.ejs"); -%>
 
-<h2>Intrinsic Value</h2>
+<h2><%= stockName %> Intrinsic Value</h2>
 
-<p><%= calculatedValue.toFixed(2) %></p>
+<p><%= calculatedValue.toFixed(2) %> </p>
+<p><%= currentDifference %></p>
 
 <%- include("./partials/footer.ejs"); -%>
