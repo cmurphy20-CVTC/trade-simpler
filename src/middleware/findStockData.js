@@ -1,7 +1,6 @@
 import axios from "axios";
 import "dotenv/config";
 
-
 export const findStockData = async (stockSymbol) => {
   try {
     const options = {

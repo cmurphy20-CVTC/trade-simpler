@@ -29,16 +29,14 @@ app.post("/findStockData", (req, res) => {
     const cashPerShare = value.totalCashPerShare.raw;
     const stockPrice = value.currentPrice.raw;
 
-    console.log(value.earningsGrowth.raw);
+    console.log(earningsGrowth);
     console.log(value.totalCashPerShare.raw);
     console.log(value.currentPrice.raw);
-    
 
     try {
       const intrinsicValue =
         cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
 
-        
       res.render("intrinsicValue", { calculatedValue: intrinsicValue });
     } catch (error) {
       console.error(error);
