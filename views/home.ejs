@@ -2,10 +2,17 @@
 
 <h2>Welcome</h2>
 
-<div style="align-items: center; width: 50vw">
-  <form action="/findStockData" method="post">
+<div>
+  <form action="/intrinsicValue" method="post">
+    <label for="stockName">Stick Name</label>
     <input type="text" name="stockname" required />
-    <button type="submit" class>Search</button>
+    <label for="earningsGrowth">Earnings Growth</label>
+    <input type="number" name="earningsGrowth" step=".01" required />
+    <label for="cashPerShare">Cash Per Share</label>
+    <input type="number" name="cashPerShare" step=".01" required />
+    <label for="stockPrice">Stock Price</label>
+    <input type="number" name="stockPrice" step=".01" required />
+    <button type="submit" class>Calculate Instrinsic Value</button>
   </form>
 </div>
 
