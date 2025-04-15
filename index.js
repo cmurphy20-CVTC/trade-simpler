@@ -1,13 +1,12 @@
 import "dotenv/config";
 import express from "express";
-// may want to use express session to save session data
 // find out how to import tailwind and postcss
 import bodyParser from "body-parser";
 import ejs from "ejs";
 
 import { findStockData } from "./src/middleware/findStockData.js";
 import { calculateIntrinsicValue } from "./src/services/calculateIntrinsicValue.js";
-import { findStockName } from "./src/middleware/findStockName.js";
+import { sanitizeInput } from "./src/utils/sanitizeInput.js";
 const app = express();
 
 app.use(express.static("views"));
@@ -20,48 +19,34 @@ app.get("/", (req, res) => {
 });
 
 app.post("/findStockData", (req, res) => {
-  let stockSymbol = req.body.selectedStock.trim();
-  console.log("get data " + stockSymbol);
-  const promisedData = Promise.resolve(findStockData(stockSymbol));
+  const stockSymbol = sanitizeInput(req.body.stockname);
+  console.log(req.body);
+  console.log(`get data ${  stockSymbol}`);
 
-  promisedData.then((value) => {
-    const earningsGrowth = value.earningsGrowth.raw;
-    const cashPerShare = value.totalCashPerShare.raw;
-    const stockPrice = value.currentPrice.raw;
+  findStockData(stockSymbol)
+    .then((value) => {
+      const earningsGrowth = value.body["earningsGrowth"].raw;
+      const cashPerShare = value.body["totalCashPerShare"].raw;
+      const stockPrice = value.body["currentPrice"].raw;
 
-    console.log(earningsGrowth);
-    console.log(value.totalCashPerShare.raw);
-    console.log(value.currentPrice.raw);
+      console.log(earningsGrowth);
+      console.log(cashPerShare);
+      console.log(stockPrice);
 
-    try {
-      const intrinsicValue =
-        cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
+      try {
+        const intrinsicValue =
+          cashPerShare * (1 + earningsGrowth) * (stockPrice / cashPerShare);
 
-      res.render("intrinsicValue", { calculatedValue: intrinsicValue });
-    } catch (error) {
-      console.error(error);
-    }
-  });
-});
-
-app.post("/findStockName", (req, res) => {
-  let stockName = req.body.stockname.trim();
-
-  try {
-    const stockNameData = Promise.resolve(findStockName(stockName));
-
-    stockNameData
-      .then((value) => {
-        console.log("found " + value);
-        res.render("stockName", { stockNames: value.quotes });
-      })
-      .catch((error) => {
-        // Handle errors if the promise rejects
+        res.render("intrinsicValue", { calculatedValue: intrinsicValue });
+      } catch (error) {
         console.error(error);
-      });
-  } catch (error) {
-    console.error(error);
-  }
+        // Handle the error appropriately (e.g., render an error page or send an error response)
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      // Handle the error appropriately (e.g., render an error page or send an error response)
+    });
 });
 
 let port = process.env.PORT || 3000;
@@ -72,3 +57,10 @@ if (port == null || port == "") {
 app.listen(port, "0.0.0.0", function () {
   console.log("Server has started successfully ");
 });
+
+// const app = require('./app')
+// const config = require('./config')
+// const logger = require('./logger')
+//app.listen(port, "0.0.0.0", function () {
+//   console.log("Server has started successfully ");
+// });

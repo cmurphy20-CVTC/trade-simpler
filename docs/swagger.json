@@ -1,0 +1,18 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Trade Simmplier API",
+    "version": "#{Build.BuildNumber}#"
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "tags": [{ "name": "Yahoo Finance" }],
+  "paths": {
+    "/v1/yahooFinance/stock/{stockSymbol}": {
+      "post": {}
+    }
+  }
+}

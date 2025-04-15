@@ -1,4 +1,4 @@
-export const calculateIntrinsicValue = async (value) => {
+export const calculateIntrinsicValue =  (value) => {
   const earningsGrowth = value.earningsGrowth;
   const cashPerShare = value.totalCashPerShare.raw;
   const stockPrice = value.currentPrice.raw;
